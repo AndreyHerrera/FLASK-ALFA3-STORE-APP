@@ -38,3 +38,11 @@ def query_create_token_user(user: UserLogin, token, created_at, expires_at):
     """
 
     return query
+
+
+def query_validated_token_user(token : str):
+    query = f"""
+        SELECT expires_at FROM public.user_token_app WHERE token = '{token}';
+    """
+
+    return query
