@@ -1,4 +1,4 @@
-class User():
+class UserRegister():
     def __init__(self, name, lastName, dni, email, password) -> None:
         self.name = name
         self.lastName = lastName
@@ -7,10 +7,10 @@ class User():
         self.password = password
 
 
-def json_to_data(user_data):
+def json_to_data_register(user_data):
     name = user_data['name']
     last_name = user_data['lastName']
     dni = user_data['dni']
     email = user_data['email']
     password = user_data['password']
-    return User(name, last_name, dni, email, password)
+    return UserRegister(name, last_name, dni, email, password)

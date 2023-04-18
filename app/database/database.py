@@ -1,7 +1,7 @@
 import psycopg2
 
 from env import os
-from app.utils.database.query_user import query_table_user
+from app.utils.database.query_user import query_table_user, query_table_token
 
 def connection_database(key = None):
     try:
@@ -19,6 +19,7 @@ def connection_database(key = None):
         else:
             cursor = connection.cursor()
             cursor.execute(query_table_user)
+            cursor.execute(query_table_token)
             connection.commit()
             cursor.close()
             connection.close()

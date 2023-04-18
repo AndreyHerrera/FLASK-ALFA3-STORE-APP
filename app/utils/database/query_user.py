@@ -1,4 +1,5 @@
-from app.models.user.register import User
+from app.models.user.register import UserRegister
+from app.models.user.login import UserLogin
 from app.utils.user.encrypt import encrypt_password
 
 
@@ -7,11 +8,33 @@ query_table_user = """
          dni BIGINT CHECK (dni >= 0 AND dni <= 9999999999) NOT NULL, email VARCHAR(256) NOT NULL, password VARCHAR(256) NOT NULL);
     """
 
-def query_register_user(user : User) -> str:
+query_table_token = """
+        CREATE TABLE IF NOT EXISTS user_token_app (id SERIAL PRIMARY KEY, email VARCHAR(256) NOT NULL, token VARCHAR(32) NOT NULL,
+         created_at timestamp  NOT NULL, expires_at timestamp NOT NULL);
+    """
+
+def query_register_user(user : UserRegister) -> str:
     query = f"""
         INSERT INTO public.user_app
-        ("name", last_name, dni, email, "password")
+        (name, last_name, dni, email, password)
         VALUES('{user.name}', '{user.lastName}', {user.dni}, '{user.email}', '{encrypt_password(user.password)}');
+    """
+
+    return query
+
+
+def query_login_user(user : UserLogin):
+    query = f"""
+        SELECT * FROM public.user_app WHERE email = '{user.email}' and password = '{encrypt_password(user.password)}';
+    """
+
+    return query
+
+
+def query_create_token_user(user: UserLogin, token, created_at, expires_at):
+    query = f"""
+        INSERT INTO public.user_token_app
+        (email, token, created_at, expires_at) VALUES('{user.email}', '{token}', '{created_at}', '{expires_at}')
     """
 
     return query
