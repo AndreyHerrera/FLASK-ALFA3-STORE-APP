@@ -14,7 +14,7 @@ def register_user():
         cursor = connection.cursor()
         cursor.execute(query_register_user(user_data))
         connection.commit()
-        
+        connection.close()
         return {'Response' : 'OK'}, 200
     except:
         pass

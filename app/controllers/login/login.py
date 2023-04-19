@@ -19,12 +19,12 @@ def login_user():
         connection.close()
         if data:
             token = generate_token(user_data)
-            validated_token("bdb15691f42244080645bd79935b9a18")
+            validated_token(token)
             return {'AuthToken' : token}, 200
 
         else:
             return {'AuthToken' : False}, 200
     
-    except:
-        pass
+    except Exception as exc:
+        return {'Response' : exc}, 500
     
